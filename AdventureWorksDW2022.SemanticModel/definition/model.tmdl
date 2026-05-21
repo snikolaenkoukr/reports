@@ -1,0 +1,87 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["DimAccount","DimCurrency","DimCustomer","DimDate","DimDepartmentGroup","DimEmployee","DimGeography","DimOrganization","DimProduct","DimProductCategory","DimProductSubcategory","DimPromotion","DimReseller","DimSalesReason","DimSalesTerritory","DimScenario","FactCallCenter","FactInternetSales","FactInternetSalesReason","FactProductInventory","FactResellerSales","FactSalesQuota","FactSurveyResponse","ProspectiveBuyer","udfMinimumDate","udfTwoDigitZeroFill","udfBuildISO8601Date","FactCurrencyRate","FactFinance","vTimeSeries","vTargetMail","vDMPrep","vAssocSeqOrders","vAssocSeqLineItems","NewFactCurrencyRate"]
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
+
+ref table DimAccount
+ref table DimCurrency
+ref table DimCustomer
+ref table DateTableTemplate_624a813f-680b-4c41-9d80-a9da4e608368
+ref table LocalDateTable_e3de20d6-1ab7-4d32-9f60-ea92ffb7e89f
+ref table LocalDateTable_46f23e5b-5538-491b-b84b-ec40a044a56b
+ref table DimDate
+ref table LocalDateTable_c2839dd2-5df2-48ec-a2cf-5183a3945682
+ref table DimDepartmentGroup
+ref table DimEmployee
+ref table LocalDateTable_f877ee3d-1373-4140-8b72-aeb611c0d469
+ref table LocalDateTable_5d275232-8bdc-4385-8e45-457c580ea4d2
+ref table LocalDateTable_106bd742-21a9-45cc-ad7e-467cad4c012e
+ref table LocalDateTable_210ac8cc-3c11-45a6-b75e-43eb7a182603
+ref table DimGeography
+ref table DimOrganization
+ref table DimProduct
+ref table LocalDateTable_f64a3cd3-3954-4bed-abc9-9402b7bf47ae
+ref table LocalDateTable_6f704475-414f-40cb-849c-a11ffcc33191
+ref table DimProductCategory
+ref table DimProductSubcategory
+ref table DimPromotion
+ref table LocalDateTable_a96b0c8a-4de2-46db-9c71-1db6c166d66d
+ref table LocalDateTable_91dd00aa-9172-4037-90f3-8da8ef4c5570
+ref table DimReseller
+ref table DimSalesReason
+ref table DimSalesTerritory
+ref table DimScenario
+ref table FactCallCenter
+ref table LocalDateTable_a0c11a5a-9fac-4ed1-bf9f-cf9a61dcec00
+ref table FactInternetSales
+ref table LocalDateTable_6d935cf1-c500-454f-b2d7-04c21a075130
+ref table LocalDateTable_99278281-55c1-4f68-92ae-0d51683a1c52
+ref table LocalDateTable_76913db3-ce55-4d48-9675-6d2c470b90ea
+ref table FactInternetSalesReason
+ref table FactProductInventory
+ref table LocalDateTable_03f7ab07-1bbc-4fac-8391-5ee4ff8d0dab
+ref table FactResellerSales
+ref table LocalDateTable_2762bbe4-f680-42c4-9b74-25a5a8a23c64
+ref table LocalDateTable_1dc7adfc-9f97-4643-853f-ba3961ffc8f9
+ref table LocalDateTable_f54580b0-a251-4f60-b166-65930ce7ab7e
+ref table FactSalesQuota
+ref table LocalDateTable_a5fcd79b-dfb8-42b7-b1f0-8888d49388c3
+ref table FactSurveyResponse
+ref table LocalDateTable_a8311d3a-4860-4274-88ea-65e767a14af7
+ref table ProspectiveBuyer
+ref table LocalDateTable_12cb9ca2-a76b-4a15-b35b-3c3ac05f899e
+ref table udfMinimumDate
+ref table udfTwoDigitZeroFill
+ref table udfBuildISO8601Date
+ref table FactCurrencyRate
+ref table LocalDateTable_2f04be91-eac7-4e3b-a8cd-daa98620f67e
+ref table FactFinance
+ref table LocalDateTable_2d7f26a5-79c7-47a0-8785-b044bb40aa20
+ref table vTimeSeries
+ref table LocalDateTable_96174180-2ad8-4a33-85b7-ec5c0662e6b3
+ref table vTargetMail
+ref table LocalDateTable_d754f789-4dbc-4254-8be3-364df5f9204b
+ref table LocalDateTable_471af91d-6b37-46b4-b53d-d94340627ec5
+ref table vDMPrep
+ref table vAssocSeqOrders
+ref table vAssocSeqLineItems
+ref table NewFactCurrencyRate
+ref table LocalDateTable_4dfc41f1-4723-40af-b57d-029949af0dc1
+ref table Table1
+ref table DimScenarioBudgetOnly
+ref table Colors
+ref table TimeTable
+ref table DimTime
+ref table LocalDateTable_cfad0dc0-a858-4287-a0dc-71b640d6ef15
+
+ref cultureInfo en-US
+

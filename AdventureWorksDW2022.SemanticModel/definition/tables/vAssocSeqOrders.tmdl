@@ -1,0 +1,47 @@
+table vAssocSeqOrders
+	lineageTag: 93965b8f-0f03-4350-806f-48135f4e1faa
+
+	column OrderNumber
+		dataType: string
+		lineageTag: 1c7de65f-d826-4129-9380-09f12f2cbe15
+		summarizeBy: none
+		sourceColumn: OrderNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 630af875-2d01-4752-bed1-538215e56fbc
+		summarizeBy: count
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: c00c795a-0755-4a0b-9932-cd45ebed5cca
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column IncomeGroup
+		dataType: string
+		lineageTag: cb9033ef-bbc9-49be-b772-82e868dbd64c
+		summarizeBy: none
+		sourceColumn: IncomeGroup
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vAssocSeqOrders = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    dbo_vAssocSeqOrders = Source{[Schema="dbo",Item="vAssocSeqOrders"]}[Data]
+				in
+				    dbo_vAssocSeqOrders
+
+	annotation PBI_ResultType = Table
+

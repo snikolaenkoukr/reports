@@ -1,0 +1,23 @@
+table udfBuildISO8601Date
+	lineageTag: edadd33a-d24a-43ea-8fe7-818037124397
+
+	column udfBuildISO8601Date
+		dataType: string
+		lineageTag: 87dc78c9-6582-48ed-85fb-653283c8f962
+		summarizeBy: none
+		sourceColumn: udfBuildISO8601Date
+
+		annotation SummarizationSetBy = Automatic
+
+	partition udfBuildISO8601Date = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    dbo_udfBuildISO8601Date = Source{[Schema="dbo",Item="udfBuildISO8601Date"]}[Data],
+				    #"Invoked Functiondbo_udfBuildISO8601Date1" = dbo_udfBuildISO8601Date(null, null, null)
+				in
+				    #"Invoked Functiondbo_udfBuildISO8601Date1"
+
+	annotation PBI_ResultType = Null
+

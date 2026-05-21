@@ -1,0 +1,100 @@
+table FactProductInventory
+	lineageTag: 551ccf9f-f360-4bf7-9718-d169b0a20168
+
+	measure 'Stock on Hand' = ```
+			
+			CALCULATE(
+			    SUM(FactProductInventory[UnitsBalance]),
+			    LASTNONBLANK(
+			        'DimDate'[FullDateAlternateKey],
+			        CALCULATE(SUM(FactProductInventory[UnitsBalance]))
+			    )
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 7548785e-2ea4-47f7-8872-f6c7ce64febb
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 9914f315-58ec-4884-9c1c-af6823518bfd
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 0ea581c0-b47e-4ada-a851-2c1105edc58e
+		summarizeBy: none
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column MovementDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: d594b853-0eaa-4621-9240-362cf799f532
+		summarizeBy: none
+		sourceColumn: MovementDate
+
+		variation Variation
+			isDefault
+			relationship: bede9d0b-72b5-480f-9adf-1415ab3f4af5
+			defaultHierarchy: LocalDateTable_03f7ab07-1bbc-4fac-8391-5ee4ff8d0dab.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column UnitCost
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 8a731921-0110-44ed-b031-f487622ec9d7
+		summarizeBy: sum
+		sourceColumn: UnitCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column UnitsIn
+		dataType: int64
+		formatString: 0
+		lineageTag: 9d9bd338-8e3b-4cfe-829d-91014726fd74
+		summarizeBy: sum
+		sourceColumn: UnitsIn
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitsOut
+		dataType: int64
+		formatString: 0
+		lineageTag: ccb8fd8d-1d82-40c9-b1c7-73cf1e13ba0f
+		summarizeBy: sum
+		sourceColumn: UnitsOut
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitsBalance
+		dataType: int64
+		formatString: 0
+		lineageTag: 953f01c9-d7c6-4478-be64-747c5b094431
+		summarizeBy: sum
+		sourceColumn: UnitsBalance
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactProductInventory = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    dbo_FactProductInventory = Source{[Schema="dbo",Item="FactProductInventory"]}[Data]
+				in
+				    dbo_FactProductInventory
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,30 @@
+table DimTime
+	lineageTag: c5704392-59c1-4ddb-812b-ad74fce99c75
+
+	column Time
+		formatString: General Date
+		lineageTag: 54fb374b-ef1a-421f-a5a3-13d8e3d1eebf
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		variation Variation
+			isDefault
+			relationship: c709c993-cf36-4cec-844c-fbcd83ea4d3b
+			defaultHierarchy: LocalDateTable_cfad0dc0-a858-4287-a0dc-71b640d6ef15.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimTime = calculated
+		mode: import
+		source = ```
+				
+				GENERATESERIES (
+				 TIME ( 0, 0, 0 ), -- Start value
+				 TIME ( 23, 59, 59 ), -- End value
+				 TIME ( 0, 0, 1 ) -- Step: 1 second
+				)
+				
+				```
+
+	annotation PBI_Id = cdc5a0425a8b49a8a4e9ff658c3509db
+

@@ -1,0 +1,30 @@
+table TimeTable
+	lineageTag: 8bc389fb-b277-4b31-aed1-7c684bf21773
+
+	column Value
+		formatString: hh:nn:ss
+		lineageTag: 3b6c5c48-8350-4c41-84bd-d4df73b2d66d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	partition TimeTable = calculated
+		mode: import
+		source = ```
+				
+				GENERATESERIES (
+				 TIME ( 0, 0, 0 ), -- Start value
+				 TIME ( 23, 59, 59 ), -- End value
+				 TIME ( 0, 0, 1 ) -- Step: 1 second
+				)
+				
+				```
+
+	annotation PBI_Id = 25ca23c1b2bb4dc0a43ce65ac3181bb3
+

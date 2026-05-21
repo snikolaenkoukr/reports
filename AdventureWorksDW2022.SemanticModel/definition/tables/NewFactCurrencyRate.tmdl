@@ -1,0 +1,76 @@
+table NewFactCurrencyRate
+	lineageTag: 15a8f1c7-b6bc-4dc2-8775-d4e59970a1ed
+
+	column AverageRate
+		dataType: double
+		lineageTag: 58fcc433-27c8-4c23-b29f-19b1b5b117d9
+		summarizeBy: sum
+		sourceColumn: AverageRate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CurrencyID
+		dataType: string
+		lineageTag: dd31103d-13b1-4968-9862-64b6a2e10b3b
+		summarizeBy: none
+		sourceColumn: CurrencyID
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrencyDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 5a2f2ff7-31d5-46ca-bd4f-8e17b75befa4
+		summarizeBy: none
+		sourceColumn: CurrencyDate
+
+		variation Variation
+			isDefault
+			relationship: 061f45ce-0601-4d16-a22a-f2a15a47c655
+			defaultHierarchy: LocalDateTable_4dfc41f1-4723-40af-b57d-029949af0dc1.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column EndOfDayRate
+		dataType: double
+		lineageTag: 4f16d94b-215f-4519-b1f2-ba0212ce5477
+		summarizeBy: sum
+		sourceColumn: EndOfDayRate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CurrencyKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 01cf1aac-dd2a-4116-a9dc-10b7f6fddf85
+		summarizeBy: count
+		sourceColumn: CurrencyKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: b5c379f5-bd70-4d3a-ac93-ea739a333e92
+		summarizeBy: count
+		sourceColumn: DateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition NewFactCurrencyRate = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    dbo_NewFactCurrencyRate = Source{[Schema="dbo",Item="NewFactCurrencyRate"]}[Data]
+				in
+				    dbo_NewFactCurrencyRate
+
+	annotation PBI_ResultType = Table
+

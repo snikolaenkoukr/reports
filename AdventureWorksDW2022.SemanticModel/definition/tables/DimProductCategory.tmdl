@@ -1,0 +1,65 @@
+table DimProductCategory
+	lineageTag: 4fff3760-99b5-49b6-b869-a88d3be9a8a0
+
+	column ProductCategoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 8637c8ec-3225-4900-8d5d-7aed0e015b16
+		summarizeBy: none
+		sourceColumn: ProductCategoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ProductCategoryAlternateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: f410b6dd-29cc-4c9f-b8a3-91e90a907de2
+		summarizeBy: none
+		sourceColumn: ProductCategoryAlternateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column EnglishProductCategoryName
+		dataType: string
+		lineageTag: ea7f10e3-18cf-46d8-aafd-c71f13a640ae
+		summarizeBy: none
+		sourceColumn: EnglishProductCategoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	column SpanishProductCategoryName
+		dataType: string
+		lineageTag: ae36b5c7-e68f-4b47-a565-342e8d18ef7c
+		summarizeBy: none
+		sourceColumn: SpanishProductCategoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	column FrenchProductCategoryName
+		dataType: string
+		lineageTag: fe0416d8-a9e9-4413-9578-36b87baaedce
+		summarizeBy: none
+		sourceColumn: FrenchProductCategoryName
+
+		annotation SummarizationSetBy = Automatic
+
+	column NumberOfSales =
+			
+			VAR SalesOfCurrentProductCategory = RELATEDTABLE ( FactInternetSales )
+			RETURN
+			 COUNTROWS ( SalesOfCurrentProductCategory )
+		formatString: 0
+		lineageTag: 8201129e-4ce1-4f9b-8a83-c9268400a3fc
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimProductCategory = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    dbo_DimProductCategory = Source{[Schema="dbo",Item="DimProductCategory"]}[Data]
+				in
+				    dbo_DimProductCategory
+

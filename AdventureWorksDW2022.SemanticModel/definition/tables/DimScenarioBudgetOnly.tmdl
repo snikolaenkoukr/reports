@@ -1,0 +1,31 @@
+table DimScenarioBudgetOnly
+	lineageTag: 4fa51ff8-01f9-49fc-95e0-dfb24bab586b
+
+	column ScenarioKey2
+		formatString: 0
+		lineageTag: 315d5e02-ee95-458c-a6ee-6f1dd77a4ed7
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [ScenarioKey2]
+
+		annotation SummarizationSetBy = Automatic
+
+	column ScenarioName2
+		lineageTag: 3f54706d-f06e-4833-80d3-a4a34ef4f245
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [ScenarioName2]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimScenarioBudgetOnly = calculated
+		mode: import
+		source = ```
+				SELECTCOLUMNS(
+				    FILTER('DimScenario','DimScenario'[ScenarioName]="Budget"), 
+				    "ScenarioKey2", 'DimScenario'[ScenarioKey],
+				    "ScenarioName2", 'DimScenario'[ScenarioName])
+				```
+
+	annotation PBI_Id = d1cdeee8f5984807a467d9a19db39772
+

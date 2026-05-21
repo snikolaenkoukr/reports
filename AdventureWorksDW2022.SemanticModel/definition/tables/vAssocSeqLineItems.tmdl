@@ -1,0 +1,39 @@
+table vAssocSeqLineItems
+	lineageTag: c714d320-f93c-468d-9a88-f9640e35060a
+
+	column OrderNumber
+		dataType: string
+		lineageTag: 43fcde5d-3de8-4701-8ae9-31bb69834c4c
+		summarizeBy: none
+		sourceColumn: OrderNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column LineNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 12251040-98c5-4886-8116-9455ea5f6f2f
+		summarizeBy: sum
+		sourceColumn: LineNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column Model
+		dataType: string
+		lineageTag: f3336e1d-34b8-4e39-a4e2-0c68d785f9c3
+		summarizeBy: none
+		sourceColumn: Model
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vAssocSeqLineItems = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    dbo_vAssocSeqLineItems = Source{[Schema="dbo",Item="vAssocSeqLineItems"]}[Data]
+				in
+				    dbo_vAssocSeqLineItems
+
+	annotation PBI_ResultType = Table
+

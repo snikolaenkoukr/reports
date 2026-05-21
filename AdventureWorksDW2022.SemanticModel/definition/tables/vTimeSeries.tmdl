@@ -1,0 +1,83 @@
+table vTimeSeries
+	lineageTag: 2b8a51fe-caa6-41d6-8a1e-39d7de47fb3d
+
+	column ModelRegion
+		dataType: string
+		lineageTag: bf02de48-1e42-4191-85c4-4e4d354a15a4
+		summarizeBy: none
+		sourceColumn: ModelRegion
+
+		annotation SummarizationSetBy = Automatic
+
+	column TimeIndex
+		dataType: int64
+		formatString: 0
+		lineageTag: af704607-c3d4-48c3-bbc7-6c06cbe4a8c6
+		summarizeBy: sum
+		sourceColumn: TimeIndex
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: 77dfa822-1684-4a61-b2ab-7cd6239a91a1
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 91502021-c6ab-4bce-93d7-d87a2dfb8225
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column CalendarYear
+		dataType: int64
+		formatString: 0
+		lineageTag: 5527f56f-c8c2-45b3-92f6-8a4ee710f1ab
+		summarizeBy: sum
+		sourceColumn: CalendarYear
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: int64
+		formatString: 0
+		lineageTag: e5d8329b-c744-4589-adfd-52378a2561c4
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column ReportingDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 2a03adaa-a4a6-487d-944c-322c4c2b2501
+		summarizeBy: none
+		sourceColumn: ReportingDate
+
+		variation Variation
+			isDefault
+			relationship: 02c865fd-7336-4486-9605-847e9022bec7
+			defaultHierarchy: LocalDateTable_96174180-2ad8-4a33-85b7-ec5c0662e6b3.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition vTimeSeries = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    dbo_vTimeSeries = Source{[Schema="dbo",Item="vTimeSeries"]}[Data]
+				in
+				    dbo_vTimeSeries
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,15 @@
+EVALUATE
+SUMMARIZECOLUMNS (
+ 'DimDate'[CalendarYear],
+ "Sales Amount", [Total Sales] 
+)
+
+EVALUATE
+ROW ( "Result", SUM ( FactInternetSales[SalesAmount] ) )
+
+
+EVALUATE
+SUMMARIZECOLUMNS (
+ 'DimProduct'[Color],
+ "Products", COUNTROWS ( 'DimProduct' )
+)

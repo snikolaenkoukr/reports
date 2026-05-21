@@ -1,0 +1,55 @@
+table DimOrganization
+	lineageTag: 0d098b6b-6c5e-4c35-9e8b-fc44836ec11c
+
+	column OrganizationKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 5e613693-456d-4e32-ad51-31a90d5edd05
+		summarizeBy: none
+		sourceColumn: OrganizationKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ParentOrganizationKey
+		dataType: int64
+		formatString: 0
+		lineageTag: b623c043-3183-417e-a665-f072a3b63b01
+		summarizeBy: count
+		sourceColumn: ParentOrganizationKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PercentageOfOwnership
+		dataType: string
+		lineageTag: 601cae8e-e1bb-4aba-a7e0-511b2f3e3154
+		summarizeBy: none
+		sourceColumn: PercentageOfOwnership
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrganizationName
+		dataType: string
+		lineageTag: ab90d6d4-f0f5-4465-a1a5-ca2a8ae66a07
+		summarizeBy: none
+		sourceColumn: OrganizationName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrencyKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 315a9acf-2689-402e-84ef-3bd6f391dbda
+		summarizeBy: none
+		sourceColumn: CurrencyKey
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimOrganization = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    dbo_DimOrganization = Source{[Schema="dbo",Item="DimOrganization"]}[Data]
+				in
+				    dbo_DimOrganization
+

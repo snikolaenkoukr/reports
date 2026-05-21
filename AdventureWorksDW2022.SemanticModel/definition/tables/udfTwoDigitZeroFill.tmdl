@@ -1,0 +1,23 @@
+table udfTwoDigitZeroFill
+	lineageTag: baa0a13d-1bb2-462e-87ea-42c7f01cbb68
+
+	column udfTwoDigitZeroFill
+		dataType: string
+		lineageTag: 67d0a16e-0319-49fe-aadf-47fc03c5b956
+		summarizeBy: none
+		sourceColumn: udfTwoDigitZeroFill
+
+		annotation SummarizationSetBy = Automatic
+
+	partition udfTwoDigitZeroFill = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    dbo_udfTwoDigitZeroFill = Source{[Schema="dbo",Item="udfTwoDigitZeroFill"]}[Data],
+				    #"Invoked Functiondbo_udfTwoDigitZeroFill1" = dbo_udfTwoDigitZeroFill(null)
+				in
+				    #"Invoked Functiondbo_udfTwoDigitZeroFill1"
+
+	annotation PBI_ResultType = Null
+

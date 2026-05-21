@@ -1,0 +1,46 @@
+table Colors
+	lineageTag: f5a9a945-27fe-49b3-820f-adf51f88b98c
+
+	column Color
+		lineageTag: 3c8695d2-a9ce-4fb8-a1c3-1066ba3ce1de
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Color]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Products
+		formatString: 0
+		lineageTag: b250ebdd-36d1-48c9-a520-e4f461cf36b9
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Products]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales Amount'
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 23d26946-02c5-4847-9507-a405250b8e52
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Sales Amount]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	partition Colors = calculated
+		mode: import
+		source = ```
+				
+				SELECTCOLUMNS (
+				 VALUES ( 'DimProduct'[Color] ),
+				 "Color", 'DimProduct'[Color],
+				 "Products", CALCULATE ( COUNTROWS ( 'DimProduct' ) ),
+				 "Sales Amount", [Total Sales]
+				)
+				
+				```
+
+	annotation PBI_Id = 53d49f87229c428b9becd1be23564655
+

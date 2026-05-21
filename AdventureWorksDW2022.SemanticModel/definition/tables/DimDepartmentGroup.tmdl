@@ -1,0 +1,38 @@
+table DimDepartmentGroup
+	lineageTag: 92e7f9e5-5c37-4134-8966-f4044c7d7992
+
+	column DepartmentGroupKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 5dd7676c-8bd2-4e61-a1bb-0f6dd6f75ad8
+		summarizeBy: none
+		sourceColumn: DepartmentGroupKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ParentDepartmentGroupKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 9785ead8-447e-4c03-9855-06146b3a4da3
+		summarizeBy: none
+		sourceColumn: ParentDepartmentGroupKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DepartmentGroupName
+		dataType: string
+		lineageTag: c072744c-d6bb-4436-8651-147f791f44dd
+		summarizeBy: none
+		sourceColumn: DepartmentGroupName
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimDepartmentGroup = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    dbo_DimDepartmentGroup = Source{[Schema="dbo",Item="DimDepartmentGroup"]}[Data]
+				in
+				    dbo_DimDepartmentGroup
+

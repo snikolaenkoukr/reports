@@ -1,0 +1,714 @@
+table FactInternetSales
+	lineageTag: 44a6c4b5-3ed3-485a-9bbf-d9ef8ef33aa7
+
+	measure 'Net Sales' =
+			
+			SUMX ( FactInternetSales, FactInternetSales[OrderQuantity] * FactInternetSales[UnitPrice] * 2 )
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 8a400246-fa5f-40df-8d00-cf7525451568
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Total Sales' =
+			
+			SUMX ( FactInternetSales, FactInternetSales[SalesAmount] )
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: a194f60a-a9e9-42ac-acf5-ca1e37bb6f14
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Shipped  Sales' =
+			
+			CALCULATE (
+			[Total Sales],
+			USERELATIONSHIP ( FactInternetSales[ShipDateKey], 'DimDate'[DateKey] )
+			)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 7840cb95-6b14-4aa1-b104-2ec8e699b85c
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Net Sales Actualized' =
+			
+			SUMX ( FactInternetSales, FactInternetSales[OrderQuantity] * RELATED ( DimProduct[Current List Price 2] ))
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 44da842e-dc6b-4f9a-90c5-25505c6b3336
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Discounted Quantity' =
+			
+			CALCULATE (
+			SUM ( FactInternetSales[OrderQuantity] ),
+			FactInternetSales[DiscountAmount] <> 0
+			)
+		formatString: 0
+		lineageTag: 291e5d17-4801-41d7-bfd2-0a31b66d5ebc
+
+	measure 'Discounted Quantity Optimized' =
+			
+			CALCULATE (
+			SUM ( FactInternetSales[OrderQuantity] ),
+			FactInternetSales[HasDiscount] = TRUE
+			)
+		formatString: 0
+		lineageTag: 6094e175-42e2-44c7-8f06-809e8a6d83ba
+
+	measure RedSalesShort = ```
+			
+			CALCULATE (
+				FactInternetSales[Total Sales],
+				'DimProduct'[Color] = "Red"
+			)
+			
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 5d82b90b-22c2-45ac-b509-6ced6a9fe480
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure RedSales = ```
+			
+			CALCULATE (
+				FactInternetSales[Total Sales], 
+			    FILTER (
+			        ALL (DimProduct[Color]),
+			    'DimProduct'[Color] = "Red"	)
+			)
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 0e4b24b1-45fb-4b1a-bafd-f799cc60962c
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure RedSalesKeepFilters = ```
+			
+			CALCULATE (
+				FactInternetSales[Total Sales],
+				KEEPFILTERS('DimProduct'[Color] = "Red")
+			)
+			
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 2bb2ee09-627d-4f38-b6f6-5c30387425a6
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure AllSales =
+			
+			CALCULATE (
+				FactInternetSales[Total Sales],
+				REMOVEFILTERS('DimProduct'[Color])
+			)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 407bcea4-deea-4c08-8df2-cecd22517074
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure RedSalesTableFilter =
+			
+			CALCULATE (
+				FactInternetSales[Total Sales],
+				FILTER('DimProduct', 'DimProduct'[Color] = "Red")
+			)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: ae9ae7b1-a3dc-445e-b311-e2e7ce5c3f4b
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure RedSalesTableFilter2 =
+			
+			CALCULATE (
+				FactInternetSales[Total Sales],
+				FILTER( ALL ('DimProduct'), 'DimProduct'[Color] = "Red")
+			)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 4810ee1d-9900-4395-9ec8-c9c9759d3f34
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure Pct =
+			
+			DIVIDE (
+			        'FactInternetSales'[Total Sales],
+				CALCULATE ( 'FactInternetSales'[Total Sales], REMOVEFILTERS ('DimProduct') )
+			)
+		lineageTag: 4fa0718c-96f7-4e8a-a6fc-a55fe3884a1d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Pct2 =
+			
+			DIVIDE (
+			        'FactInternetSales'[Total Sales],
+				CALCULATE ( 'FactInternetSales'[Total Sales], REMOVEFILTERS ('DimProduct'[Color]) )
+			)
+		lineageTag: dab2ba1b-cd18-41ca-8fa0-41dddc3e478e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Pct3 =
+			
+			DIVIDE (
+			        'FactInternetSales'[Total Sales],
+				CALCULATE ( 'FactInternetSales'[Total Sales], ALLSELECTED ('DimProduct'[Color]) )
+			)
+		lineageTag: aed28d4a-e525-4f9d-aa14-f1dc14bb0087
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Pct4 = ```
+			
+			DIVIDE (
+			        'FactInternetSales'[Total Sales],
+				CALCULATE ( 'FactInternetSales'[Total Sales], ALLSELECTED ('DimProduct') )
+			)
+			
+			```
+		lineageTag: 9c897126-e5ea-48a3-9853-c610bfb25530
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure RedSalesShortWithClass =
+			
+			CALCULATE (
+				FactInternetSales[Total Sales],
+				'DimProduct'[Class] = "L",
+				'DimProduct'[Color] = "Red"
+			)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 092c83ca-fab2-463e-ae5f-b8037cb88c4f
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure RedSalesShortWithClass2 = ```
+			
+			CALCULATE (
+				FactInternetSales[Total Sales],
+				KEEPFILTERS (
+				FILTER ( 
+				   ALL ('DimProduct'[Class], 'DimProduct'[Color]), 
+				  'DimProduct'[Class] = "L" || 'DimProduct'[Color] = "Red"
+				       )
+				)
+			)
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 3b3664fb-1932-4124-bf13-5142eafc57c9
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure RedAndSilverSales =
+			
+			CALCULATE (
+				FactInternetSales[Total Sales],
+				KEEPFILTERS ( 'DimProduct'[Color] IN {"Red", "Silver"} )
+			)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: f7fa12d6-012c-4595-9480-550215cabc24
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure Pct5 = ```
+			
+			DIVIDE (
+			        'FactInternetSales'[Total Sales],
+				CALCULATE ( 'FactInternetSales'[Total Sales], 
+				REMOVEFILTERS ('DimDate') )
+			)
+			```
+		lineageTag: d5129de2-d9eb-45b8-bad6-392e538da73b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Pct6 = ```
+			
+			DIVIDE (
+			        'FactInternetSales'[Total Sales],
+				CALCULATE ( 'FactInternetSales'[Total Sales], 
+				REMOVEFILTERS ('DimDate'),
+				VALUES ('DimDate'[CalendarYear])
+				 	  )
+			)
+			
+			```
+		lineageTag: 3f76e11b-2516-4695-b2dd-16c523b5ff7e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales 2007-2011' = ```
+			
+			CALCULATE (
+				FactInternetSales[Total Sales],
+				'DimDate'[CalendarYear] IN {2007, 2008, 2009, 2010, 2011}
+			)
+			
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 2ac8fd0a-43c5-496d-b5d3-14beb6f8c43a
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Sales 2007-2011 2' =
+			
+			CALCULATE (
+				FactInternetSales[Total Sales],
+				TREATAS ( { (2007, 12 ), (2011, 1)}, 'DimDate'[CalendarYear], 'DimDate'[MonthNumberOfYear] )
+			)
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 10afe45c-a74c-4856-a0b3-59f63b680633
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'One Cutomer Total Sales' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT('FactInternetSales'[SalesOrderNumber]),
+			    FILTER(
+			        'FactInternetSales',
+			       RELATED('DimCustomer'[CustomerKey]) = 11603)
+			    )
+		formatString: 0
+		lineageTag: 60198f4d-b2d1-486d-b593-468b6169eb72
+
+	measure 'Product Quantity Rank'
+		lineageTag: e8ce635c-32cc-400c-8399-d7d28ede6369
+
+	measure 'Revenue High Margin Products' = ```
+			
+			CALCULATE(
+			    [Total Sales],
+			    FILTER(
+			        'DimProduct',
+			        'DimProduct'[ListPrice] > 'DimProduct'[StandardCost] * 2
+			    )
+			)
+			
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 982bbc8a-e135-4cfc-a16d-42e930a72319
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Customer Segment' =
+			
+			VAR CustomerRevenue = CALCULATE(SUM(FactInternetSales[SalesAmount]))
+			RETURN
+			    IF(CustomerRevenue < 500, "Low", "High")
+		lineageTag: f3ee65ba-b7d7-41e1-838a-fe6bde3487b5
+
+	measure 'Sales % Country' =
+			
+			IF(
+			    ISINSCOPE(DimGeography[EnglishCountryRegionName]),
+			    DIVIDE(
+			        SUM(FactInternetSales[SalesAmount]),
+			        CALCULATE(
+			            SUM(FactInternetSales[SalesAmount]),
+			            REMOVEFILTERS(DimGeography[EnglishCountryRegionName])
+			        )
+			    )
+			)
+		lineageTag: dafc3cbe-f8e9-4e5f-b764-cee57c7225ea
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenue YTD' =
+			
+			TOTALYTD(
+			    [Total Sales],
+			    'DimDate'[FullDateAlternateKey],
+			    "12-31"
+			)
+		formatString: 0
+		lineageTag: 2f347767-2304-4598-803e-420c01176ccb
+
+	measure 'Revenue PY' = ```
+			
+			VAR RevenuePriorYear = CALCULATE(
+			    [AllSales],
+			    SAMEPERIODLASTYEAR('DimDate'[FullDateAlternateKey])
+			)
+			RETURN
+			    RevenuePriorYear
+			
+			```
+		formatString: 0
+		lineageTag: c677a88f-bf08-46bc-93d0-dcd7821f6c94
+
+	measure 'Sales YoY Growth' =
+			
+			VAR SalesPriorYear =
+			    CALCULATE(
+			        SUM(FactInternetSales[SalesAmount]),
+			        PARALLELPERIOD(
+			            'DimDate'[FullDateAlternateKey],
+			            -12,
+			            MONTH
+			        )
+			    )
+			RETURN
+			    DIVIDE(
+			        (SUM(FactInternetSales[SalesAmount]) - SalesPriorYear),
+			        SalesPriorYear
+			    )
+		formatString: #,0.00%;-#,0.00%;#,0.00%
+		lineageTag: 84021a1c-6413-45f4-8b91-430eeb5acd45
+
+	measure 'Sales RT' = ```
+			
+			VAR MaxDate = MAX ( 'DimDate'[FullDateAlternateKey] )
+			VAR Result = 
+				CALCULATE (
+					[Total Sales],
+					'DimDate'[FullDateAlternateKey] <= MaxDate,
+					ALL ( 'DimDate' )
+				)
+			RETURN 
+				Result
+			
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 31b9dad2-29b0-409c-9d00-04a27e3c2f87
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Last 12 month Sales' = ```
+			
+			CALCULATE (
+			    [Total Sales],
+			    DATESINPERIOD ( 'DimDate'[FullDateAlternateKey], MAX('FactInternetSales'[OrderDateKey]), -12, MONTH)
+			    ) 
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 2f464615-59c5-4abc-a6a6-58d75fb55ba0
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Percentage of grand total sales' = ```
+			
+			VAR _sales = SUM( 'FactInternetSales'[SalesAmount] )
+			VAR _totalsales =  
+			CALCULATE (
+			    SUM( 'FactInternetSales'[SalesAmount] ),
+			    FILTER (
+			        ALLSELECTED ( 'DimDate' ),
+			        'DimDate'[FullDateAlternateKey] <= MAX ( 'DimDate'[FullDateAlternateKey] )
+			    ) 
+			)
+			RETURN
+			DIVIDE ( _sales, _totalsales )
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: eab11779-2489-4fc0-a692-86f1fef89a9c
+
+	measure 'Running Sum' = ```
+			
+			CALCULATE (
+			    SUM('FactInternetSales'[SalesAmount]),
+			    FILTER (
+			        ALLSELECTED ( 'DimDate' ),
+			        'DimDate'[FullDateAlternateKey] <= MAX ( 'DimDate'[FullDateAlternateKey] )
+			    ) 
+			)
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 021904c7-5e1c-4bda-a439-c29f13185357
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Rank Cat on Sales' = ```
+			
+			IF (
+			 HASONEVALUE ( 'DimProductCategory'[EnglishProductCategoryName] ),
+			 RANKX (
+			 ALL ( 'DimProductCategory'[EnglishProductCategoryName] ),
+			 [Total Sales]
+			 )
+			)
+			
+			```
+		formatString: 0
+		lineageTag: e36cc0de-4396-402e-9309-7e4f15a6d5fd
+
+	column ProductKey
+		dataType: int64
+		formatString: 0
+		lineageTag: b0191460-8fe4-476a-a30a-6b3dd92dba7c
+		summarizeBy: none
+		sourceColumn: ProductKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 1a43c289-2c24-4a81-97d2-3cbaef6841e2
+		summarizeBy: count
+		sourceColumn: OrderDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column DueDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ec39eff3-27c8-47ea-85ef-95c5b8be39dd
+		summarizeBy: none
+		sourceColumn: DueDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipDateKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 00f48d00-0d05-4282-8567-9d342bbf6919
+		summarizeBy: count
+		sourceColumn: ShipDateKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		dataType: int64
+		formatString: 0
+		lineageTag: e112da6f-32e8-43cd-816c-4e289e60e7e6
+		summarizeBy: none
+		sourceColumn: CustomerKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column PromotionKey
+		dataType: int64
+		formatString: 0
+		lineageTag: ac8c19e7-5bc8-4cf6-8c1b-3d525861c89a
+		summarizeBy: none
+		sourceColumn: PromotionKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column CurrencyKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 28c9b2b8-0d9a-43ab-b6a8-c886e9d496d4
+		summarizeBy: none
+		sourceColumn: CurrencyKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesTerritoryKey
+		dataType: int64
+		formatString: 0
+		lineageTag: 92c7ab16-6309-4afb-8f6e-05818151c6ab
+		summarizeBy: count
+		sourceColumn: SalesTerritoryKey
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderNumber
+		dataType: string
+		lineageTag: 59f9d7be-fc58-4f2f-9892-031bea5dcb40
+		summarizeBy: none
+		sourceColumn: SalesOrderNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesOrderLineNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: ce2bba1f-0289-4625-8dd3-76c51d1237c2
+		summarizeBy: sum
+		sourceColumn: SalesOrderLineNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column RevisionNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: c614a9ef-6f08-430f-8db4-411084533e27
+		summarizeBy: sum
+		sourceColumn: RevisionNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderQuantity
+		dataType: int64
+		formatString: 0
+		lineageTag: cdf6560a-8234-4231-a16b-16fa1846884a
+		summarizeBy: sum
+		sourceColumn: OrderQuantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column UnitPrice
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 9928be85-88c8-4242-ae7a-bd1fa8765c3c
+		summarizeBy: sum
+		sourceColumn: UnitPrice
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column ExtendedAmount
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 8580a44b-69ff-4094-bade-0373877e7b6d
+		summarizeBy: sum
+		sourceColumn: ExtendedAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column UnitPriceDiscountPct
+		dataType: double
+		lineageTag: 5ec954e0-5e59-4345-a425-64f29f4bcfd5
+		summarizeBy: sum
+		sourceColumn: UnitPriceDiscountPct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DiscountAmount
+		dataType: double
+		lineageTag: 21a36c65-ef97-46e3-a6ea-35b6105f86a0
+		summarizeBy: sum
+		sourceColumn: DiscountAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ProductStandardCost
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 32c0310b-eb6f-4f2d-a98d-552a063d49c3
+		summarizeBy: sum
+		sourceColumn: ProductStandardCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column TotalProductCost
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 69559f5b-43f4-4cec-8f0e-317c89a80901
+		summarizeBy: sum
+		sourceColumn: TotalProductCost
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column SalesAmount
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 49d86830-175d-4cac-9321-2c7f6031283b
+		summarizeBy: sum
+		sourceColumn: SalesAmount
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column TaxAmt
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: b7e38b6d-3510-4bae-95bc-17e1ded4c764
+		summarizeBy: sum
+		sourceColumn: TaxAmt
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Freight
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: cc60fdc6-aab6-446b-bda5-90d5c3717f0a
+		summarizeBy: sum
+		sourceColumn: Freight
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column CarrierTrackingNumber
+		dataType: string
+		lineageTag: aee160ad-10ab-4582-af9f-519d17ed519a
+		summarizeBy: none
+		sourceColumn: CarrierTrackingNumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerPONumber
+		dataType: string
+		lineageTag: 0c2438fb-de66-45ab-ac6c-d291b34cd7cd
+		summarizeBy: none
+		sourceColumn: CustomerPONumber
+
+		annotation SummarizationSetBy = Automatic
+
+	column OrderDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c872fb38-bf10-4388-a2d8-e3a6a96d9f38
+		summarizeBy: none
+		sourceColumn: OrderDate
+
+		variation Variation
+			isDefault
+			relationship: 4b552057-6b84-46e2-93cf-fb00ff6c88ab
+			defaultHierarchy: LocalDateTable_6d935cf1-c500-454f-b2d7-04c21a075130.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column DueDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 139bb461-f176-4b0f-824b-3cc59c6ec1a8
+		summarizeBy: none
+		sourceColumn: DueDate
+
+		variation Variation
+			isDefault
+			relationship: e4cf34cb-2c98-4f3d-b4b4-f0ae4415c03b
+			defaultHierarchy: LocalDateTable_99278281-55c1-4f68-92ae-0d51683a1c52.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column ShipDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 8f3c9b76-629c-46a0-bf1d-89d667e1b829
+		summarizeBy: none
+		sourceColumn: ShipDate
+
+		variation Variation
+			isDefault
+			relationship: 5bcfdbf1-e79b-46c7-93da-ff27612265ba
+			defaultHierarchy: LocalDateTable_76913db3-ce55-4d48-9675-6d2c470b90ea.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column HasDiscount = FactInternetSales[DiscountAmount] <> 0
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2fe7b834-9a1c-4854-9701-57a4b96b3452
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactInternetSales = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    dbo_FactInternetSales = Source{[Schema="dbo",Item="FactInternetSales"]}[Data]
+				in
+				    dbo_FactInternetSales
+
+	annotation PBI_ResultType = Table
+

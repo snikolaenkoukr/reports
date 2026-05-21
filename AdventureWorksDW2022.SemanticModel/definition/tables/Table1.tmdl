@@ -1,0 +1,67 @@
+table Table1
+	lineageTag: 37b8664a-7625-4891-a782-fdcfaa124de4
+
+	column CalendarYear
+		formatString: 0
+		lineageTag: 2de58673-ce15-4a9f-aa28-29ee36b42890
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [CalendarYear]
+
+		annotation SummarizationSetBy = Automatic
+
+	column CalendarMonth
+		formatString: 0
+		lineageTag: 9408e95c-f1d2-4e6e-9354-95d34abbfdb6
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [CalendarMonth]
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerKey
+		formatString: 0
+		lineageTag: 553eac12-bbc1-48a5-add4-c040fb8252f6
+		summarizeBy: count
+		isNameInferred
+		sourceColumn: [CustomerKey]
+
+		annotation SummarizationSetBy = Automatic
+
+	column CustomerClass
+		lineageTag: 6e69d4b2-56d5-442b-a469-28ce53195de7
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [CustomerClass]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Table1 = calculated
+		mode: import
+		source = ```
+				SELECTCOLUMNS (
+				SUMMARIZECOLUMNS (
+				'DimDate'[CalendarYear],
+				'DimDate'[MonthNumberOfYear],
+				DimCustomer[CustomerKey],
+				FactInternetSales,
+				"Cumulated Sales", CALCULATE (
+				SUMX ( FactInternetSales, FactInternetSales[UnitPrice] * FactInternetSales[OrderQuantity] ),
+				FILTER ( ALL ( 'DimDate' ), 'DimDate'[DateKey] <= MAX ( 'DimDate'[DateKey] ) )
+				)
+				),
+				"CalendarYear", 'DimDate'[CalendarYear],
+				"CalendarMonth", 'DimDate'[MonthNumberOfYear],
+				"CustomerKey", DimCustomer[CustomerKey],
+				"CustomerClass", SWITCH (
+				TRUE,
+				[Cumulated Sales] < 1000, "Retail",
+				[Cumulated Sales] < 10000, "Affluent",
+				"Vip"
+				)
+				)
+				
+				```
+
+	annotation PBI_Id = ef4488999f48473c975003c229313105
+

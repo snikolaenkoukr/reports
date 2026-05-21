@@ -1,0 +1,23 @@
+table udfMinimumDate
+	lineageTag: 0ee5e319-fa58-4204-a56a-65a02c938b0d
+
+	column udfMinimumDate
+		dataType: string
+		lineageTag: b68b262c-b5fb-461c-8ada-83440fa666fe
+		summarizeBy: none
+		sourceColumn: udfMinimumDate
+
+		annotation SummarizationSetBy = Automatic
+
+	partition udfMinimumDate = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    dbo_udfMinimumDate = Source{[Schema="dbo",Item="udfMinimumDate"]}[Data],
+				    #"Invoked Functiondbo_udfMinimumDate1" = dbo_udfMinimumDate(null, null)
+				in
+				    #"Invoked Functiondbo_udfMinimumDate1"
+
+	annotation PBI_ResultType = Null
+
