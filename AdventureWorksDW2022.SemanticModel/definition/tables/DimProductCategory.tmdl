@@ -58,8 +58,10 @@ table DimProductCategory
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_DimProductCategory = Source{[Schema="dbo",Item="DimProductCategory"]}[Data]
 				in
 				    dbo_DimProductCategory
+
+	annotation PBI_ResultType = Table
 

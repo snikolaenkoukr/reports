@@ -276,7 +276,7 @@ table FactResellerSales
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_FactResellerSales = Source{[Schema="dbo",Item="FactResellerSales"]}[Data]
 				in
 				    dbo_FactResellerSales

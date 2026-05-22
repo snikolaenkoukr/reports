@@ -210,8 +210,10 @@ table DimDate
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_DimDate = Source{[Schema="dbo",Item="DimDate"]}[Data]
 				in
 				    dbo_DimDate
+
+	annotation PBI_ResultType = Table
 

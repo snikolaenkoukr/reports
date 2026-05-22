@@ -22,8 +22,10 @@ table DimScenario
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_DimScenario = Source{[Schema="dbo",Item="DimScenario"]}[Data]
 				in
 				    dbo_DimScenario
+
+	annotation PBI_ResultType = Table
 

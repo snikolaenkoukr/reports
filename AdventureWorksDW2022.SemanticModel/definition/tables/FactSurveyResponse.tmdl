@@ -80,7 +80,7 @@ table FactSurveyResponse
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_FactSurveyResponse = Source{[Schema="dbo",Item="FactSurveyResponse"]}[Data]
 				in
 				    dbo_FactSurveyResponse

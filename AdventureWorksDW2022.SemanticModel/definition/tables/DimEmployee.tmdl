@@ -369,8 +369,10 @@ table DimEmployee
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_DimEmployee = Source{[Schema="dbo",Item="DimEmployee"]}[Data]
 				in
 				    dbo_DimEmployee
+
+	annotation PBI_ResultType = Table
 

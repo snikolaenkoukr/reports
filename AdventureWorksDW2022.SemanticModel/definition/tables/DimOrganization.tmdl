@@ -48,8 +48,10 @@ table DimOrganization
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_DimOrganization = Source{[Schema="dbo",Item="DimOrganization"]}[Data]
 				in
 				    dbo_DimOrganization
+
+	annotation PBI_ResultType = Table
 

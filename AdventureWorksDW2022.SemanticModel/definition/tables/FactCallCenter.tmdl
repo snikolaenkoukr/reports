@@ -135,8 +135,10 @@ table FactCallCenter
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_FactCallCenter = Source{[Schema="dbo",Item="FactCallCenter"]}[Data]
 				in
 				    dbo_FactCallCenter
+
+	annotation PBI_ResultType = Table
 

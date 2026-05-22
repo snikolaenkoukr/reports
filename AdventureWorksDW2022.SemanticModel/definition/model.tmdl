@@ -8,7 +8,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["DimAccount","DimCurrency","DimCustomer","DimDate","DimDepartmentGroup","DimEmployee","DimGeography","DimOrganization","DimProduct","DimProductCategory","DimProductSubcategory","DimPromotion","DimReseller","DimSalesReason","DimSalesTerritory","DimScenario","FactCallCenter","FactInternetSales","FactInternetSalesReason","FactProductInventory","FactResellerSales","FactSalesQuota","FactSurveyResponse","ProspectiveBuyer","udfMinimumDate","udfTwoDigitZeroFill","udfBuildISO8601Date","FactCurrencyRate","FactFinance","vTimeSeries","vTargetMail","vDMPrep","vAssocSeqOrders","vAssocSeqLineItems","NewFactCurrencyRate"]
+annotation PBI_QueryOrder = ["DimAccount","DimCurrency","DimCustomer","DimDate","DimDepartmentGroup","DimEmployee","DimGeography","DimOrganization","DimProduct","DimProductCategory","DimProductSubcategory","DimPromotion","DimReseller","DimSalesReason","DimSalesTerritory","DimScenario","FactCallCenter","FactInternetSales","FactInternetSalesReason","FactProductInventory","FactResellerSales","FactSalesQuota","FactSurveyResponse","ProspectiveBuyer","udfMinimumDate","udfTwoDigitZeroFill","udfBuildISO8601Date","FactCurrencyRate","FactFinance","vTimeSeries","vTargetMail","vDMPrep","vAssocSeqOrders","vAssocSeqLineItems","NewFactCurrencyRate","ServerName","DBName"]
 
 annotation PBI_ProTooling = ["DaxQueryView_Desktop","DevMode"]
 
