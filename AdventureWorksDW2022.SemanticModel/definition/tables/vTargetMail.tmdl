@@ -288,7 +288,7 @@ table vTargetMail
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_vTargetMail = Source{[Schema="dbo",Item="vTargetMail"]}[Data]
 				in
 				    dbo_vTargetMail

@@ -13,7 +13,7 @@ table udfTwoDigitZeroFill
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_udfTwoDigitZeroFill = Source{[Schema="dbo",Item="udfTwoDigitZeroFill"]}[Data],
 				    #"Invoked Functiondbo_udfTwoDigitZeroFill1" = dbo_udfTwoDigitZeroFill(null)
 				in

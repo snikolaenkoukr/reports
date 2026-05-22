@@ -30,8 +30,12 @@ table DimCurrency
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_DimCurrency = Source{[Schema="dbo",Item="DimCurrency"]}[Data]
 				in
 				    dbo_DimCurrency
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
 

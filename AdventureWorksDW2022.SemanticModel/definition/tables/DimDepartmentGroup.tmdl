@@ -31,8 +31,10 @@ table DimDepartmentGroup
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_DimDepartmentGroup = Source{[Schema="dbo",Item="DimDepartmentGroup"]}[Data]
 				in
 				    dbo_DimDepartmentGroup
+
+	annotation PBI_ResultType = Table
 

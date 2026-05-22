@@ -13,7 +13,7 @@ table udfMinimumDate
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_udfMinimumDate = Source{[Schema="dbo",Item="udfMinimumDate"]}[Data],
 				    #"Invoked Functiondbo_udfMinimumDate1" = dbo_udfMinimumDate(null, null)
 				in

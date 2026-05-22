@@ -151,8 +151,10 @@ table DimPromotion
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_DimPromotion = Source{[Schema="dbo",Item="DimPromotion"]}[Data]
 				in
 				    dbo_DimPromotion
+
+	annotation PBI_ResultType = Table
 

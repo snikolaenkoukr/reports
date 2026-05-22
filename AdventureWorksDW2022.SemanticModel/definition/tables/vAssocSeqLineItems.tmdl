@@ -30,7 +30,7 @@ table vAssocSeqLineItems
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_vAssocSeqLineItems = Source{[Schema="dbo",Item="vAssocSeqLineItems"]}[Data]
 				in
 				    dbo_vAssocSeqLineItems

@@ -13,7 +13,7 @@ table udfBuildISO8601Date
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_udfBuildISO8601Date = Source{[Schema="dbo",Item="udfBuildISO8601Date"]}[Data],
 				    #"Invoked Functiondbo_udfBuildISO8601Date1" = dbo_udfBuildISO8601Date(null, null, null)
 				in

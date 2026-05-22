@@ -394,8 +394,10 @@ table DimProduct
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_DimProduct = Source{[Schema="dbo",Item="DimProduct"]}[Data]
 				in
 				    dbo_DimProduct
+
+	annotation PBI_ResultType = Table
 

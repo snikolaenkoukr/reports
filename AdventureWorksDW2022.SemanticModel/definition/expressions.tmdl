@@ -1,0 +1,14 @@
+expression ServerName = "DESKTOP-5PVOU56" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: f167ab64-0d6c-40bf-8277-10510da7167d
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+
+expression DBName = "AdventureWorksDW2022" meta [IsParameterQuery=true, List={"AdventureWorksDW2022", "AdventureWorksDW2022_Copy"}, DefaultValue="AdventureWorksDW2022", Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 1c522662-37be-4145-b63b-48165f028c2f
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

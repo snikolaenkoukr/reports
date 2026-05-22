@@ -182,8 +182,10 @@ table DimReseller
 		mode: import
 		source =
 				let
-				    Source = Sql.Database("DESKTOP-5PVOU56", "AdventureWorksDW2022"),
+				    Source = Sql.Database(ServerName, DBName),
 				    dbo_DimReseller = Source{[Schema="dbo",Item="DimReseller"]}[Data]
 				in
 				    dbo_DimReseller
+
+	annotation PBI_ResultType = Table
 
